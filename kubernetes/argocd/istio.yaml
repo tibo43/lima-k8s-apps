@@ -24,8 +24,8 @@ spec:
   project: default
   sources:
   - repoURL: 'https://istio-release.storage.googleapis.com/charts'
-    chart: istio-official/base
-    targetRevision: 1.22.3
+    chart: base
+    targetRevision: 1.27.3
     helm:
       valueFiles:
       - $values/kubernetes/helm-tools/istio/base.values.yaml
@@ -34,8 +34,8 @@ spec:
           annotations:
             argocd.argoproj.io/sync-wave: "0"
   - repoURL: 'https://istio-release.storage.googleapis.com/charts'
-    chart: istio-official/istiod
-    targetRevision: 1.22.3
+    chart: istiod
+    targetRevision: 1.27.3
     helm:
       valueFiles:
       - $values/kubernetes/helm-tools/istio/istiod.values.yaml
@@ -44,8 +44,8 @@ spec:
           annotations:
             argocd.argoproj.io/sync-wave: "1"
   - repoURL: 'https://istio-release.storage.googleapis.com/charts'
-    chart: istio-official/gateway
-    targetRevision: 1.22.3
+    chart: gateway
+    targetRevision: 1.27.3
     helm:
       valueFiles:
       - $values/kubernetes/helm-tools/istio/gateway.values.yaml
@@ -54,7 +54,7 @@ spec:
           annotations:
             argocd.argoproj.io/sync-wave: "2"
   - repoURL: 'https://github.com/tibo43/lima-k8s-apps.git'
-    targetRevision: dev
+    targetRevision: feat/init-project
     ref: values
   destination:
     namespace: istio-system
