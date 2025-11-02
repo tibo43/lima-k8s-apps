@@ -1,0 +1,11 @@
+---
+defaults:
+  autoscaleEnabled: true
+  autoscaleMin: 1
+  global:
+    logAsJson: true
+    logging:
+      level: default:debug # Helpful information when sth goes wrong, not very noisy
+    proxy:
+      autoInject: enabled # Enable by default, disable by pod annotation
+      logLevel: info # We want logs about xDS API updates when tracking down issueslogs about xDS API updates when tracking down issues

@@ -3,7 +3,7 @@ defaults:
 
   autoscaling:
     enabled: true
-    minReplicas: 2
+    maxReplicas: 2
 
   podDisruptionBudget:
     minAvailable: 1
