@@ -1,0 +1,17 @@
+---
+resources:
+  - apiVersion: networking.istio.io/v1
+    kind: Gateway
+    metadata:
+      name: istio-gw
+      namespace: istio-system
+    spec:
+      selector:
+        istio: gateway
+      servers:
+        - hosts:
+            - tfabre.tf
+          port:
+            name: "http-tfabre-tf"
+            number: 80
+            protocol: HTTP

@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+  project: default
+  sources:
+  - repoURL: 'https://istio-release.storage.googleapis.com/charts'
+    chart: istio-official/base
+    targetRevision: 1.22.3
+    helm:
+      valueFiles:
+      - $values/kubernetes/helm-tools/istio/base.values.yaml
+      valuesObject:
+        metadata:
+          annotations:
+            argocd.argoproj.io/sync-wave: "0"
+  - repoURL: 'https://istio-release.storage.googleapis.com/charts'
+    chart: istio-official/istiod
+    targetRevision: 1.22.3
+    helm:
+      valueFiles:
+      - $values/kubernetes/helm-tools/istio/istiod.values.yaml
+      valuesObject:
+        metadata:
+          annotations:
+            argocd.argoproj.io/sync-wave: "1"
+  - repoURL: 'https://istio-release.storage.googleapis.com/charts'
+    chart: istio-official/gateway
+    targetRevision: 1.22.3
+    helm:
+      valueFiles:
+      - $values/kubernetes/helm-tools/istio/gateway.values.yaml
+      valuesObject:
+        metadata:
+          annotations:
+            argocd.argoproj.io/sync-wave: "2"
+  - repoURL: 'https://github.com/tibo43/lima-k8s-apps.git'
+    targetRevision: dev
+    ref: values
+  destination:
+    namespace: istio-system
+    server: https://kubernetes.default.svc

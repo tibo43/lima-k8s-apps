@@ -1,0 +1,9 @@
+---
+defaults:
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+
+  podDisruptionBudget:
+    minAvailable: 1
