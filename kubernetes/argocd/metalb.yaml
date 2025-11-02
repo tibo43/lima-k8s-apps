@@ -4,14 +4,31 @@ metadata:
   name: metalb
   namespace: argocd
 spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
   project: default
   sources:
   - repoURL: 'https://metallb.github.io/metallb'
-    chart: metallb/metallb
+    chart: metallb
     targetRevision: 0.15.2
   - repoURL: 'https://github.com/tibo43/lima-k8s-apps.git'
     targetRevision: feat/init-project
-    directory:
-      include: 'kubernetes/metalb/*'
+    path: 'kubernetes/helm-tools/metalb/'
   destination:
-    namespace: istio-system
+    namespace: kube-system
+    server: https://kubernetes.default.svc
