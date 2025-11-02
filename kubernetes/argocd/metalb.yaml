@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metalb
+  namespace: argocd
+spec:
+  project: default
+  sources:
+  - repoURL: 'https://metallb.github.io/metallb'
+    chart: metallb/metallb
+    targetRevision: 0.15.2
+  - repoURL: 'https://github.com/tibo43/lima-k8s-apps.git'
+    targetRevision: feat/init-project
+    directory:
+      include: 'kubernetes/metalb/*'
+  destination:
+    namespace: istio-system
