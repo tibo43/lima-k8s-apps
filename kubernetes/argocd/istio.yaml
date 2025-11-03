@@ -27,8 +27,6 @@ spec:
     chart: base
     targetRevision: 1.27.3
     helm:
-      valueFiles:
-      - $values/kubernetes/helm-tools/istio/base.values.yaml
       valuesObject:
         metadata:
           annotations:
@@ -37,8 +35,6 @@ spec:
     chart: istiod
     targetRevision: 1.27.3
     helm:
-      valueFiles:
-      - $values/kubernetes/helm-tools/istio/istiod.values.yaml
       valuesObject:
         metadata:
           annotations:
@@ -47,15 +43,10 @@ spec:
     chart: gateway
     targetRevision: 1.27.3
     helm:
-      valueFiles:
-      - $values/kubernetes/helm-tools/istio/gateway.values.yaml
-      valuesObject:
-        metadata:
-          annotations:
-            argocd.argoproj.io/sync-wave: "2"
-  - repoURL: 'https://github.com/tibo43/lima-k8s-apps.git'
-    targetRevision: feat/init-project
-    ref: values
+      # valuesObject:
+      #   metadata:
+      #     annotations:
+      #       argocd.argoproj.io/sync-wave: "2"
   destination:
     namespace: istio-system
     server: https://kubernetes.default.svc
